@@ -45,15 +45,26 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className='App container'>
       <h1>My Pokemon List</h1>
-      {pokemonList.map((pokemon) =>{
-        return(
-          <div key={pokemon.pokemonID}>
-            <p>{pokemon.name}</p>
-          </div>
-        )
-      })}
+      <table className='table'>
+        <thead>
+          <tr>
+            <td><strong>Name</strong></td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+        {pokemonList.map((pokemon, key) =>{
+          return(
+            <tr key={key}>
+              <td>{pokemon.name}</td>
+              <td>X</td>
+            </tr>
+          )
+        })}
+        </tbody>
+      </table>
       <form onSubmit={(ev)=>createPokemon(ev)}>
         <label>Pokemon</label>
         <input required pattern='\S(.*\S)?' type='text' onChange={(ev)=>{setPokemonName(ev.target.value)}} value={pokemonName} />
