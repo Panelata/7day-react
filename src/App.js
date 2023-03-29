@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.css';
+import ReactLoading from 'react-loading';
 
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App() {
-  //States
+  //Loading states
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  //Pokemon states
   const [pokemonList, setPokemonList] = React.useState([]);
   const [pokemonName, setPokemonName] = React.useState('');
 
@@ -16,12 +20,14 @@ function App() {
 
   //Fetch pokemon
   const getPokemonList = () =>{
+    setIsLoading(true);
     //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
     fetch('http://127.0.0.1:8000/pokemon')
     .then((response)=>{
       return response.json();
     })
     .then((data)=>{
+      setIsLoading(false);
       setPokemonList(data.pokemonList);
     });
   }
@@ -29,6 +35,7 @@ function App() {
   //Create new pokemon
   const createPokemon = (ev) =>{
     ev.preventDefault();
+    setIsLoading(true);
     //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
     fetch('http://127.0.0.1:8000/pokemon', {
       method: 'POST',
@@ -43,6 +50,7 @@ function App() {
         getPokemonList();
         setPokemonName('');
       } else {
+        setIsLoading(false);
         console.log('Failed to create pokemon');
         setPokemonName('');
       }
@@ -52,6 +60,7 @@ function App() {
   //Delete pokemon
   const deletePokemon = (pokemonID)=>{
     console.log('Deleting pokemon: ' + pokemonID);
+    setIsLoading(true);
     //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon/' + pokemonID, {
     fetch('http://127.0.0.1:8000/pokemon/' + pokemonID, {
     method: 'DELETE'
@@ -64,6 +73,7 @@ function App() {
         console.log('Successfully deleted pokemon');
         getPokemonList();
       } else {
+        setIsLoading(false);
         console.log('Failed to delete pokemon');
       }
     });
@@ -71,6 +81,9 @@ function App() {
 
   return (
     <div className='App container'>
+      <div hidden={!isLoading} className='loading-background'>
+        <ReactLoading className='loading-spinner' type={'spin'} color={'FFF'} height={150} width={150} />
+      </div>
       <h1>My Pokemon List</h1>
       <table className='table'>
         <thead>
