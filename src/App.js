@@ -57,6 +57,26 @@ function App() {
     });
   }
 
+  //Update pokemon
+  const updatePokemon = (pokemonName, pokemonID) =>{
+    console.log('Updating pokemon');
+    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
+    fetch('http://127.0.0.1:8000/pokemon', {
+      method: 'POST',
+      body: JSON.stringify({'name': pokemonName, 'pokemonID': pokemonID})
+    })
+    .then((response)=>{
+      return response.json();
+    })
+    .then((data)=>{
+      if(data.success){
+        console.log('Successfully updated pokemon');
+      } else {
+        console.log('Failed to update pokemon');
+      }
+    });
+  }
+
   //Delete pokemon
   const deletePokemon = (pokemonID)=>{
     console.log('Deleting pokemon: ' + pokemonID);
@@ -95,7 +115,7 @@ function App() {
         {pokemonList.map((pokemon, key) =>{
           return(
             <tr key={key}>
-              <td>{pokemon.name}</td>
+              <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
               <td><i><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
             </tr>
           )
