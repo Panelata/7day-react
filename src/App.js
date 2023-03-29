@@ -1,10 +1,64 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 
 function App() {
+  //States
+  const [pokemonList, setPokemonList] = React.useState([]);
+  const [pokemonName, setPokemonName] = React.useState('');
+
+  //Fetching pokemon list
+  React.useEffect(()=>{
+    getPokemonList();
+  }, []);
+
+  //Fetch pokemon
+  const getPokemonList = () =>{
+    fetch('http://127.0.0.1:8000/pokemon')
+    .then((response)=>{
+      return response.json();
+    })
+    .then((data)=>{
+      setPokemonList(data.pokemonList);
+    });
+  }
+
+  //Create new pokemon
+  const createPokemon = (ev) =>{
+    ev.preventDefault();
+    fetch('http://127.0.0.1:8000/pokemon', {
+      method: 'POST',
+      body: JSON.stringify({'name': pokemonName, 'pokemonID': null})
+    })
+    .then((response)=>{
+      return response.json();
+    })
+    .then((data)=>{
+      if(data.success){
+        console.log('Successfully added pokemon');
+        getPokemonList();
+        setPokemonName('');
+      } else {
+        console.log('Failed to create pokemon');
+        setPokemonName('');
+      }
+    });
+  }
+
   return (
     <div className="App">
-      <p>This is the app page</p>
+      <h1>My Pokemon List</h1>
+      {pokemonList.map((pokemon) =>{
+        return(
+          <div key={pokemon.pokemonID}>
+            <p>{pokemon.name}</p>
+          </div>
+        )
+      })}
+      <form onSubmit={(ev)=>createPokemon(ev)}>
+        <label>Pokemon</label>
+        <input required pattern='\S(.*\S)?' type='text' onChange={(ev)=>{setPokemonName(ev.target.value)}} value={pokemonName} />
+        <button type='submit'>Save</button>
+      </form>
     </div>
   );
 }
