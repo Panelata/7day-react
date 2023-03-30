@@ -21,8 +21,7 @@ function App() {
   //Fetch pokemon
   const getPokemonList = () =>{
     setIsLoading(true);
-    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
-    fetch('http://127.0.0.1:8000/pokemon')
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
     .then((response)=>{
       return response.json();
     })
@@ -36,8 +35,7 @@ function App() {
   const createPokemon = (ev) =>{
     ev.preventDefault();
     setIsLoading(true);
-    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
-    fetch('http://127.0.0.1:8000/pokemon', {
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
       method: 'POST',
       body: JSON.stringify({'name': pokemonName, 'pokemonID': null})
     })
