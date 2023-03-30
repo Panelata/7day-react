@@ -21,8 +21,8 @@ function App() {
   //Fetch pokemon
   const getPokemonList = () =>{
     setIsLoading(true);
-    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
-    fetch('http://127.0.0.1:8000/pokemon')
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
+    //fetch('http://127.0.0.1:8000/pokemon')
     .then((response)=>{
       return response.json();
     })
@@ -36,8 +36,8 @@ function App() {
   const createPokemon = (ev) =>{
     ev.preventDefault();
     setIsLoading(true);
-    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
-    fetch('http://127.0.0.1:8000/pokemon', {
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
+    //fetch('http://127.0.0.1:8000/pokemon', {
       method: 'POST',
       body: JSON.stringify({'name': pokemonName, 'pokemonID': null})
     })
@@ -60,8 +60,8 @@ function App() {
   //Update pokemon
   const updatePokemon = (pokemonName, pokemonID) =>{
     console.log('Updating pokemon');
-    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
-    fetch('http://127.0.0.1:8000/pokemon', {
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
+    //fetch('http://127.0.0.1:8000/pokemon', {
       method: 'POST',
       body: JSON.stringify({'name': pokemonName, 'pokemonID': pokemonID})
     })
@@ -81,8 +81,8 @@ function App() {
   const deletePokemon = (pokemonID)=>{
     console.log('Deleting pokemon: ' + pokemonID);
     setIsLoading(true);
-    //fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon/' + pokemonID, {
-    fetch('http://127.0.0.1:8000/pokemon/' + pokemonID, {
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon/' + pokemonID, {
+    //fetch('http://127.0.0.1:8000/pokemon/' + pokemonID, {
     method: 'DELETE'
     })
     .then((response)=>{
