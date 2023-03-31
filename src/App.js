@@ -26,7 +26,7 @@ function App() {
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
     //fetch('http://127.0.0.1:8000/pokemon')
     .then((response)=>{
-    setPokemonList([]);
+      setPokemonList([]);
       return response.json();
     })
     .then((data)=>{
@@ -131,9 +131,9 @@ function App() {
           </tr>
         </thead>
         <tbody>
-        {pokemonList.map((pokemon) =>{
+        {pokemonList.map((pokemon, key) =>{
           return(
-            <tr key={pokemon.pokemonID}>
+            <tr key={key}>
               <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
               <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
             </tr>
