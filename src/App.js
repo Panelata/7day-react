@@ -125,7 +125,7 @@ function App() {
       <div hidden={!isLoading} className='loading-background'>
         <ReactLoading className='loading-spinner' type={'spin'} color={'FFF'} height={150} width={150} />
       </div>
-      <h1>My Pokemon</h1>
+      <h1>My Pokemon Team</h1>
       <table className='table'>
         <thead>
           <tr>
@@ -137,7 +137,7 @@ function App() {
           <tr>
             <td>
               <select className='text-center' onChange={(ev)=>{setSort(ev.currentTarget.value)}}>
-                <option value=''>Select Sort</option>
+                <option value=''>Sort By</option>
                 <option value='asc'>Ascending</option>
                 <option value='dsc'>Descending</option>
               </select>
@@ -155,9 +155,10 @@ function App() {
         </tbody>
       </table>
       <form onSubmit={(ev)=>createPokemon(ev)}>
-        <label>Pokemon</label>
-        <input required pattern='\S(.*\S)?' type='text' onChange={(ev)=>{setPokemonName(ev.target.value)}} value={pokemonName} />
-        <button type='submit'>Save</button>
+        <div className='input-group'>
+          <input placeholder='Add Pokemon' className='form-control' required pattern='\S(.*\S)?' type='text' onChange={(ev)=>{setPokemonName(ev.target.value)}} value={pokemonName} />
+          <button className='btn btn-outline-primary' type='submit'>Save</button>
+        </div>
       </form>
     </div>
   );

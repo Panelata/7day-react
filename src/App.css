@@ -1,6 +1,10 @@
 .App {
   text-align: center;
   margin-top: 50px;
+  /* background-color: #DAF5FF; */
+  background-color: white;
+  padding: 25px;
+  border-radius: 5%;
 }
 
 .App-logo {
@@ -53,6 +57,10 @@
 
 .input-search {
   width: 100%;
+}
+
+select {
+  border: none;
 }
 
 .pointer {
