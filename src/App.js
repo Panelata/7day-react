@@ -131,9 +131,9 @@ function App() {
           </tr>
         </thead>
         <tbody>
-        {pokemonList.map((pokemon) =>{
+        {pokemonList.map((pokemon, key) =>{
           return(
-            <tr key={pokemon.pokemonID}>
+            <tr key={key}>
               <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
               <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
             </tr>
