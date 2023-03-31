@@ -14,25 +14,24 @@ function App() {
   const [pokemonList, setPokemonList] = React.useState([]);
   const [pokemonName, setPokemonName] = React.useState('');
   const [pokemonQuery, setPokemonQuery] = React.useState('');
+  const [sort, setSort] = React.useState('');
 
   //Fetching pokemon list
   React.useEffect(()=>{
     getPokemonList();
   }, []);
 
-
+  //Trigger search pokemon when sort is updated
   React.useEffect(()=>{
-    console.log('Rendered Pokemon list');
-  }, [pokemonList]);
-
+    findPokemon(pokemonQuery);
+  }, [sort]);
 
   //Fetch pokemon
   const getPokemonList = () =>{
     setIsLoading(true);
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
-    //fetch('http://127.0.0.1:8000/pokemon')
     .then((response)=>{
-    setPokemonList([]);
+      //setPokemonList([]);
       return response.json();
     })
     .then((data)=>{
@@ -46,7 +45,6 @@ function App() {
     ev.preventDefault();
     setIsLoading(true);
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
-    //fetch('http://127.0.0.1:8000/pokemon', {
       method: 'POST',
       body: JSON.stringify({'name': pokemonName, 'pokemonID': null})
     })
@@ -56,7 +54,7 @@ function App() {
     .then((data)=>{
       if(data.success){
         console.log('Successfully added pokemon');
-        getPokemonList();
+        findPokemon(pokemonQuery);
         setPokemonName('');
       } else {
         setIsLoading(false);
@@ -70,7 +68,6 @@ function App() {
   const updatePokemon = (pokemonName, pokemonID) =>{
     console.log('Updating pokemon');
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
-    //fetch('http://127.0.0.1:8000/pokemon', {
       method: 'POST',
       body: JSON.stringify({'name': pokemonName, 'pokemonID': pokemonID})
     })
@@ -91,7 +88,6 @@ function App() {
     console.log('Deleting pokemon: ' + pokemonID);
     setIsLoading(true);
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon/' + pokemonID, {
-    //fetch('http://127.0.0.1:8000/pokemon/' + pokemonID, {
     method: 'DELETE'
     })
     .then((response)=>{
@@ -100,7 +96,7 @@ function App() {
     .then((data)=>{
       if(data.success){
         console.log('Successfully deleted pokemon');
-        getPokemonList();
+        findPokemon(pokemonQuery);
       } else {
         setIsLoading(false);
         console.log('Failed to delete pokemon');
@@ -110,11 +106,12 @@ function App() {
 
   //Find pokemon
   const findPokemon = (searchQuery) =>{
+    console.log(sort);
     setIsLoading(true);
     console.log('Searching for pokemon: ' + searchQuery);
-    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/search?name=' + encodeURIComponent(searchQuery))
+    fetch('https://phpstack-971483-3398278.cloudwaysapps.com/search?name=' + encodeURIComponent(searchQuery) + '&sort=' + sort)
     .then((response) =>{
-      setPokemonList([]);
+      //setPokemonList([]);
       return response.json();
     })
     .then((data)=>{
@@ -137,11 +134,21 @@ function App() {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>
+              <select className='text-center' onChange={(ev)=>{setSort(ev.currentTarget.value)}}>
+                <option value=''>Select Sort</option>
+                <option value='asc'>Ascending</option>
+                <option value='dsc'>Descending</option>
+              </select>
+            </td>
+            <td></td>
+          </tr>
         {pokemonList.map((pokemon, key) =>{
           return(
-            <tr key={key}>
+            <tr key={pokemon.pokemonID}>
               <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
-              <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
+              <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/>{pokemon.pokemonID}</i></td>
             </tr>
           )
         })}
