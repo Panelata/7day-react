@@ -20,12 +20,6 @@ function App() {
     getPokemonList();
   }, []);
 
-
-  React.useEffect(()=>{
-    console.log('Rendered Pokemon list');
-  }, [pokemonList]);
-
-
   //Fetch pokemon
   const getPokemonList = () =>{
     setIsLoading(true);
@@ -137,9 +131,9 @@ function App() {
           </tr>
         </thead>
         <tbody>
-        {pokemonList.map((pokemon, key) =>{
+        {pokemonList.map((pokemon) =>{
           return(
-            <tr key={key}>
+            <tr key={pokemon.pokemonID}>
               <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
               <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
             </tr>
