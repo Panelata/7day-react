@@ -20,13 +20,19 @@ function App() {
     getPokemonList();
   }, []);
 
+
+  React.useEffect(()=>{
+    console.log('Rendered Pokemon list');
+  }, [pokemonList]);
+
+
   //Fetch pokemon
   const getPokemonList = () =>{
     setIsLoading(true);
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon')
     //fetch('http://127.0.0.1:8000/pokemon')
     .then((response)=>{
-      setPokemonList([]);
+    setPokemonList([]);
       return response.json();
     })
     .then((data)=>{
