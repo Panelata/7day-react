@@ -16,6 +16,11 @@ function App() {
   const [pokemonQuery, setPokemonQuery] = React.useState('');
   const [sort, setSort] = React.useState('');
 
+  //Alert states
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertType, setAlertType] = React.useState('alert');
+  const [showAlert, setShowAlert] = React.useState(false);
+
   //Fetching pokemon list
   React.useEffect(()=>{
     getPokemonList();
@@ -43,6 +48,12 @@ function App() {
   //Create new pokemon
   const createPokemon = (ev) =>{
     ev.preventDefault();
+    //Return null if maximum number of pokemon has been reached
+    if(pokemonList.length === 6){
+      displayAlert('You can only carry 6 pokemon!', 'danger');
+      return;
+    }
+
     setIsLoading(true);
     fetch('https://phpstack-971483-3398278.cloudwaysapps.com/pokemon', {
       method: 'POST',
@@ -53,7 +64,7 @@ function App() {
     })
     .then((data)=>{
       if(data.success){
-        console.log('Successfully added pokemon');
+        displayAlert('Added ' + pokemonName + ' to your team!', 'success');
         findPokemon(pokemonQuery);
         setPokemonName('');
       } else {
@@ -120,6 +131,23 @@ function App() {
     });
   }
 
+  //Clear sorting and search filters
+  const clearFilters = () =>{
+    setPokemonQuery('');
+    setSort('');
+    getPokemonList();
+  }
+
+  //Display alert
+  const displayAlert = (message, type) =>{
+    setAlertMessage(message);
+    setAlertType('alert alert-' + type);
+    setShowAlert(true);
+    setTimeout(()=>{
+      setShowAlert(false);
+    }, 5000);
+  }
+
   return (
     <div className='App container'>
       <div hidden={!isLoading} className='loading-background'>
@@ -129,7 +157,7 @@ function App() {
       <table className='table'>
         <thead>
           <tr>
-            <td rowSpan={2}><input placeholder='Search' type='text' className='input-noborder input-search text-center' onChange={(ev)=>{setPokemonQuery(ev.currentTarget.value)}} /></td>
+            <td rowSpan={2}><input value={pokemonQuery} placeholder='Search' type='text' className='input-noborder input-search text-center' onChange={(ev)=>{setPokemonQuery(ev.currentTarget.value)}} /></td>
             <td><i className='pointer'><FontAwesomeIcon icon={faMagnifyingGlass} onClick={(ev)=>{findPokemon(pokemonQuery)}} /></i></td>
           </tr>
         </thead>
@@ -142,13 +170,13 @@ function App() {
                 <option value='dsc'>Descending</option>
               </select>
             </td>
-            <td></td>
+            <td className='pointer' onClick={(ev)=>clearFilters()}>Clear Filters</td>
           </tr>
         {pokemonList.map((pokemon, key) =>{
           return(
             <tr key={pokemon.pokemonID}>
               <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
-              <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/>{pokemon.pokemonID}</i></td>
+              <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
             </tr>
           )
         })}
@@ -160,6 +188,9 @@ function App() {
           <button className='btn btn-outline-primary' type='submit'>Save</button>
         </div>
       </form>
+      <div hidden={!showAlert} className={alertType}>
+        {alertMessage}
+      </div>
     </div>
   );
 }

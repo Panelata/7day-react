@@ -1,15 +1,21 @@
 .App {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 25px;
   /* background-color: #DAF5FF; */
   background-color: white;
   padding: 25px;
   border-radius: 5%;
+  max-width: 540px;
+  min-width: 300px;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.alert {
+  margin-bottom: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
