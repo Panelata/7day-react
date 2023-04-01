@@ -175,7 +175,7 @@ function App() {
         {pokemonList.map((pokemon, key) =>{
           return(
             <tr key={pokemon.pokemonID}>
-              <td><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
+              <td><img className='pokemon-image' src={pokemon.image} /><input className='input-noborder text-center' onBlur={(ev)=>{updatePokemon(ev.target.value, pokemon.pokemonID)}} defaultValue={pokemon.name}/></td>
               <td><i className='pointer'><FontAwesomeIcon icon={faTrash} onClick={()=>{deletePokemon(pokemon.pokemonID)}}/></i></td>
             </tr>
           )
