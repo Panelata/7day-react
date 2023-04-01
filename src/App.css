@@ -1,15 +1,36 @@
 .App {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 25px;
   /* background-color: #DAF5FF; */
   background-color: white;
   padding: 25px;
   border-radius: 5%;
+  max-width: 540px;
+  min-width: 300px;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.alert {
+  margin-bottom: 0;
+}
+
+.pokemon-image {
+  max-width: 25px;
+  scale: 1.8;
+  animation-name: bounce; 
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0%   {scale: 1.8;}
+  25%  {scale: 1.7;}
+  50%  {scale: 1.8;}
+  100% {scale: 1.9;}
 }
 
 @media (prefers-reduced-motion: no-preference) {
